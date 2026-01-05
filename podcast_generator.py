@@ -120,7 +120,7 @@ def generate_conversation_script(topic, context_text):
             raise Exception("Dummy key detected")
 
         response = client.chat.completions.create(
-            model="gpt-4o",  # or gpt-3.5-turbo
+            model="gpt-5-mini",  # Using cheaper model for Hinglish conversation generation
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}

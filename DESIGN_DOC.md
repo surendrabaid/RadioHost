@@ -1,9 +1,9 @@
-# Technical Design Document: Hinglish Podcast Generator
+# Technical Design Document: The Synthetic Radio Host
 
 ## 1. Project Overview
 **Track:** AI-Powered Content Creation (Wikipedia to Audio Pipeline)
 
-The **Hinglish Podcast Generator** is an automated pipeline that transforms Wikipedia articles into engaging, natural-sounding, two-person Hinglish (Hindi + English) podcasts. It bridges the gap between static information and dynamic, conversational audio content, optimized for the young Indian demographic.
+The **The Synthetic Radio Host** is an automated pipeline that transforms Wikipedia articles into engaging, natural-sounding, two-person Hinglish (Hindi + English) podcasts. It bridges the gap between static information and dynamic, conversational audio content, optimized for the young Indian demographic.
 
 ## 2. System Architecture
 
