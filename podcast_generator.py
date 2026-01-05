@@ -96,8 +96,8 @@ def generate_conversation_script(topic, context_text):
     1. Language: Use natural Hinglish.
     2. Vocabulary: Use fillers like "Matlab", "Achcha", "Sahi mein?", "Bhai", "Umm...", "Hahaha".
     3. Emotion: MANDATORY: Include markers like "[laughs]", "[sighs]", "umm...", "phew".
-    4. STRICT DURATION: The total length MUST be between 8 to 10 dialogue turns total (approx 150-180 words). This is crucial to keep the audio under 2 minutes.
-    5. Content: Based on the provided context, but make it sound like a chat, not a lecture.
+    4. STRICT DURATION: The total length MUST be exactly 5 to 6 dialogue turns total (approx 100-120 words). This is mandatory to keep the high-fidelity audio duration under 2 minutes.
+    5. Content: Based on the provided context, but make it very punchy and short.
     
     Format: Return ONLY valid JSON in this exact structure:
     {
@@ -181,7 +181,7 @@ def text_to_speech_openai(script_json, output_file="hinglish_podcast.mp3"):
                 messages=[
                     {
                         "role": "system", 
-                        "content": f"You are {speaker}, an Indian person speaking Hinglish. Use a natural, expressive Indian accent. Include natural breathing and slight pauses where appropriate. Do not sound robotic."
+                        "content": f"You are {speaker}, an Indian person speaking Hinglish. Use a natural, expressive Indian accent. Speak at a crisp, brisk, and natural pace. Include natural breathing but keep it concise and avoid long silences. Do not sound robotic."
                     },
                     {
                         "role": "user", 
