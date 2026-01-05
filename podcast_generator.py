@@ -1,12 +1,16 @@
+#!/usr/bin/env python
+
 # If running in Colab, uncomment the next line:
 # !pip install openai wikipedia-api python-dotenv
 
 import os
+import sys
 import json
 import wikipediaapi
 from openai import OpenAI
 from dotenv import load_dotenv
 import certifi
+
 
 # Fix SSL certificate issues (especially on macOS)
 try:
@@ -46,8 +50,8 @@ def get_wikipedia_content(topic, lang='en'):
             return None
         return page.summary[:4000]
     except Exception as e:
-        print(f"Error fetching Wikipedia data: {e}")
-        print("Attempting fallback with raw requests...")
+        #print(f"Error fetching Wikipedia data: {e}")
+        #print("Attempting fallback with raw requests...")
         import requests
         
         try:
@@ -73,12 +77,12 @@ def get_wikipedia_content(topic, lang='en'):
                 if page_id != "-1":
                     content = page_data.get("extract", "")[:4000]
                     if content:
-                        print("Wikipedia fallback successful!")
+                        #print("Wikipedia fallback successful!")
                         return content
         except Exception as e2:
-             print(f"Fallback failed: {e2}")
+            print(f"Fallback failed: {e2}")
 
-        print("Network/API error. Using DUMMY Wikipedia data for demonstration.")
+        #print("Network/API error. Using DUMMY Wikipedia data for demonstration.")
         return f"{topic} is a highly successful franchise in the Indian Premier League (IPL). They have won 5 titles."
 
 def generate_conversation_script(topic, context_text):
@@ -207,7 +211,12 @@ def text_to_speech_openai(script_json, output_file="hinglish_podcast.mp3"):
             print(f"Dummy Audio saved to {output_file}")
 
 def main():
-    topic = input("Enter a topic (e.g., 'Mumbai Indians'): ") or "Mumbai Indians"
+    # Priority 1: Command line argument
+    if len(sys.argv) > 1:
+        topic = " ".join(sys.argv[1:])
+    else:
+        # Priority 2: Interactive input
+        topic = input("Enter a topic (e.g., 'Mumbai Indians'): ") or "Mumbai Indians"
     
     # 1. Get Content
     wiki_text = get_wikipedia_content(topic)
@@ -215,9 +224,23 @@ def main():
         print("Topic not found on Wikipedia.")
         return
 
+    print("\n" + "="*50)
+    print(f"WIKIPEDIA CONTENT RETRIEVED for '{topic}':")
+    print("-" * 50)
+    print(wiki_text[:500] + "..." if len(wiki_text) > 500 else wiki_text)
+    print("="*50 + "\n")
+
     # 2. Get Script
     script = generate_conversation_script(topic, wiki_text)
     
+    print("\n" + "="*50)
+    print("GENERATED HINGLISH SCRIPT:")
+    print("-" * 50)
+    dialogue = script.get("conversation", [])
+    for line in dialogue:
+        print(f"{line['speaker']}: {line['text']}")
+    print("="*50 + "\n")
+
     # Save script for review
     with open("script.json", "w") as f:
         json.dump(script, f, indent=2)
